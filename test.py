@@ -13,3 +13,4 @@ cur.execute("select * from testtable")
 for row in cur.fetchall():
     print(row)
 mydb.commit()
+#test comment
