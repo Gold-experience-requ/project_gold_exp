@@ -1,0 +1,6 @@
+# .gitignore
+.env               # Your database credentials - VERY IMPORTANT!
+__pycache__/       # Python generated cache files
+*.pyc              # Python compiled files
+*.sqlite           # If using SQLite, ignore its DB file
+.vscode/           # VS Code's local settings (optional)
