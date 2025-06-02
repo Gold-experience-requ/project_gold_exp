@@ -13,6 +13,7 @@ cur = con.cursor()
 cur.execute("use arcade")
 
 
+
 def welcome_screen():
     os.system("cls")
     print(" █████╗ ██████╗  ██████╗  █████╗ ██████╗  ███████╗".center(160))
