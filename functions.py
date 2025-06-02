@@ -15,35 +15,46 @@ cur.execute("use arcade")
 
 def welcome_screen():
     os.system("cls")
-    print("="*165)
-    print("WELCOME TO ARCADE".center(165))
-    print("="*165)
+    print(" █████╗ ██████╗  ██████╗  █████╗ ██████╗  ███████╗".center(160))
+    print("██╔══██╗██╔══██╗██╔════╝ ██╔══██╗██╔═══██╗██╔════╝".center(160))
+    print("███████║██████╔╝██║      ███████║██║   ██║█████╗  ".center(160))
+    print("██╔══██║██╔══██╗██║      ██╔══██║██║   ██║██╔══╝  ".center(160))
+    print("██║  ██║██║  ██║╚██████╔╝██║  ██║██████╔╝ ███████╗".center(160))
+    print("╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝ ═════╝  ╚══════╝".center(160))
     print("\n")
-    print("CHOOSE YOUR DESIRED OPTION".center(165))
+    print("             WELCOME TO THE ARCADE ZONE!".center(160))
+    print("          GET READY FOR PIXELATED FUN!".center(160))
     print("\n")
-    print("1. LOGIN".center(55),"2. REGISTER".center(55),"3.EXIT".center(55))
+    print("           > PRESS ENTER TO BEGIN <".center(160))
+    print("---------------------------------------------------------".center(160))
+    input() # Waits for user to press Enter
     print("\n")
+
     
 
 def mainmenu():
+    print("what Do You Want To Do ?".center(160))
+    print(">>> Login".center(160))
+    print(">>> Register".center(160))
+    print(">>> Exit".center(160))
     try:
-        mainmenuinput = int(input("Enter the no. of your desired option  "))
-        if mainmenuinput == 1:
+        mainmenuinput = input("Enter the no. of your desired option  ")
+        if mainmenuinput.lower() == "login":
             print("You have selected option 1")
             # Call the function for option 1
             login()
-        elif mainmenuinput == 2:
+        elif mainmenuinput.lower() == "register":
             print("You have selected option 2")
             # Call the function for option 2
             register()
-        elif mainmenuinput == 3:
+        elif mainmenuinput.lower() == "exit":
             print("You have selected option 3")
             sys.exit()
         else:
             print("Invalid option, please try again.")
             mainmenu()
     except ValueError:
-        print("Invalid input, please enter a number.")
+        print("Invalid input, please enter a valid input.")
         mainmenu()
         
 def register():
