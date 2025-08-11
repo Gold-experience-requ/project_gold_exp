@@ -25,7 +25,6 @@ cur.execute("""
 cur.execute("""
     CREATE TABLE IF NOT EXISTS score (
         USER_ID int NOT NULL,
-        SCORE_ID INT PRIMARY KEY,
         GAME_ID varchar(20) NOT NULL,
         SCORE_VALUE INT NOT NULL,
         TIME_STAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -36,3 +35,7 @@ con.commit()
 fxn.welcome_screen()
 fxn.mainmenu()
 
+
+# user admin id = admin
+# user admin password = admin@arcade
+# user admin email = arcadeworld@arcade.com

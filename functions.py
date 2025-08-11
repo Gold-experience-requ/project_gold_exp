@@ -2,7 +2,7 @@ import sys
 import os
 import mysql.connector as m
 import games as g
-
+score = 0
 con=m.connect(
     host="localhost",
     user="root",
@@ -95,6 +95,7 @@ def register():
 
 
 def login():
+    global score
     user_name = input("Enter your username: ")
     password = input("Enter your password: ")
     cur.execute("SELECT * FROM user WHERE USER_NAME = %s AND USER_PASSWORD = %s", (user_name, password))
@@ -106,16 +107,113 @@ def login():
         adminmenu()
     elif user[5] == 'player':
         playermenu()
+        score = 0  # Reset score for the player
     else:
         print("Invalid username or password. Please try again.")
         login()
+    return user[0]  # Return USER_ID for further use
         
         
 def adminmenu():
-    x = "admin"
-    print("x")
+    print("Hello admin")
+    print("1. View all users")
+    print("2. View all scores")
+    print("3. View all games")
+    print("4. Suspend a user")
+    print("5. Logout")
+    choice = input("Enter your choice: ")
+    if choice == '1':
+        print("You have selected option 1")
+        cur.execute("SELECT * FROM user")
+        users = cur.fetchall()
+        if users:
+            print("All Users:")
+            for user in users:
+                print(f"ID: {user[0]}, Name: {user[1]}, Email: {user[2]}, Mobile: {user[3]}, Role: {user[5]}")
+        else:
+            print("No users found.")
+        adminmenu()
+    elif choice == '2':
+        print("You have selected option 2")
+        cur.execute("SELECT * FROM score")
+        scores = cur.fetchall()
+        if scores:
+            print("All Scores:")
+            for score in scores:
+                print(f"User ID: {score[0]}, Game ID: {score[1]}, Score: {score[2]}, Time Stamp: {score[3]}")
+        else:
+            print("No scores found.")
+        adminmenu()
+    elif choice == '3':
+        print("You have selected option 3")
+        print("Available Games:")
+        print("1. Battleship")
+        print("2. Periodic table quiz")
+        print("3. RPG Battle Arena")
+        print("4. BlackJack")
+        adminmenu()
+    elif choice == '4':
+        print("You have selected option 4")
+        user_id = input("Enter the USER_ID of the user to suspend: ")
+        cur.execute("delete from user where USER_ID = %s", (user_id,))
+        cur.execute("delete from score where USER_ID = %s", (user_id,))
+        con.commit()
+        print(f"User with ID {user_id} has been suspended.")
+        adminmenu()
+    elif choice == '5':
+        print("You have selected option 3")
+        print("Logging out...")
+        welcome_screen()
+        mainmenu()
+    else:
+        print("Invalid choice, please try again.")
+        adminmenu()
     
-    
+username = login()   
+
 def playermenu():
-    x = 1
-    print("x")
+    global username
+    print("Welcome to the Player Menu!")
+    print("1. Play Games")
+    print("2. View Scores")
+    print("3. Logout")
+    choice = input("enter Your option")
+    if choice == '1':
+        print("You have selected option 1")
+        print("which game do you want to play")
+        print("1. Battleship")
+        print("2. Periodic table quiz")
+        print("3. RPG Battle Arena")
+        print("4. BlackJack")
+        choice2 = input("Enter your choice: ")
+        if choice2 == '1':
+            g.battleship()
+            playermenu()
+        elif choice2 == '2':
+            g.periodic_table_quiz(username)
+            playermenu()
+        elif choice2 == '3':
+            g.rpg()
+            playermenu()
+        elif choice2 == '4':
+            g.blackjack()
+            playermenu()
+        else:
+            print("Invalid choice, please try again.")
+            playermenu()
+    if choice == '2':
+        print("You have selected option 2")
+        cur.execute("SELECT * FROM score WHERE USER_ID = %s", (username,))
+        scores = cur.fetchall()
+        if scores:
+            print("Your Scores:")
+            for score in scores:
+                print(f"Game ID: {score[2]}, Score: {score[3]}, Time Stamp: {score[4]}")
+        else:
+            print("No scores found.")
+        playermenu()
+    if choice == '3':
+        print("You have selected option 3")
+        print("Logging out...")
+        welcome_screen()
+        mainmenu()

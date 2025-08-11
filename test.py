@@ -64,7 +64,7 @@ print("          GET READY FOR PIXELATED FUN!")
 print("\n")
 print("           > PRESS ENTER TO BEGIN <")
 print("---------------------------------------------------------")
-input() # Waits for user to press Enter"""
+input() # Waits for user to press Enter
 
 import tkinter as tk
 from tkinter import messagebox
@@ -135,4 +135,11 @@ for i in range(9):
 reset_btn = tk.Button(root, text="Reset", command=reset_board)
 reset_btn.grid(row=3, column=0, columnspan=3, sticky="nsew")
 
-root.mainloop()
+root.mainloop()"""
+
+
+a= 2
+def a():
+    global a
+    a = 3
+print(a)

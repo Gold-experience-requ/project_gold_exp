@@ -167,4 +167,74 @@ if player_hp <= 0:
 elif monster_hp <= 0:
     print("\nCongratulations! You defeated the monster!")
 elif choice == "3" and player_hp > 0:
-    print("\nYou survived by running away!")                                         
+    print("\nYou survived by running away!")  
+
+
+
+#black jack
+def deal_card():
+    """Returns a random card from the deck."""
+    cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11]  # 10 for J/Q/K, 11 for Ace
+    return random.choice(cards)
+
+def calculate_score(hand):
+    """Calculates the score of a hand. Handles Ace as 1 or 11."""
+    score3 = sum(hand)
+    if 11 in hand and score > 21:
+        hand[hand.index(11)] = 1
+        score3 = sum(hand)
+    return score
+
+def show_hand(hand, owner="Your"):
+    print(f"{owner} cards: {hand} (Total: {calculate_score(hand)})")
+
+print("Welcome to Blackjack!\n")
+
+player_hand = [deal_card(), deal_card()]
+dealer_hand = [deal_card(), deal_card()]
+
+game_over = False
+
+while not game_over:
+    show_hand(player_hand)
+    print(f"Dealer's first card: {dealer_hand[0]}")
+    
+    if calculate_score(player_hand) == 21:
+        print("Blackjack! You win!")
+        game_over = True
+        break
+    elif calculate_score(player_hand) > 21:
+        print("You went over 21. You lose!")
+        game_over = True
+        break
+
+    action = input("Type 'hit' to get another card, or 'stand' to hold: ").lower()
+    if action == "hit":
+        player_hand.append(deal_card())
+    elif action == "stand":
+        break
+    else:
+        print("Invalid input. Please type 'hit' or 'stand'.")
+
+# Dealer's turn
+if not game_over:
+    while calculate_score(dealer_hand) < 17:
+        dealer_hand.append(deal_card())
+    show_hand(dealer_hand, "Dealer's")
+
+    player_score = calculate_score(player_hand)
+    dealer_score = calculate_score(dealer_hand)
+
+    if dealer_score > 21:
+        print("Dealer went over 21. You win!")
+        score += 20
+    elif dealer_score == player_score:
+        print("It's a draw!")
+        score += 5
+    elif player_score > dealer_score:
+        print("You win!")
+        score += 10
+    else:
+        print("Dealer wins!")
+
+print("Game over. Thanks for playing!")                  
