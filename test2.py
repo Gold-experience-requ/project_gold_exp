@@ -1,3 +1,4 @@
+
 # Simple Battleship Game
 import random
 
@@ -15,9 +16,6 @@ while attempts > 0:
         attempts -= 1
 else:
     print("Game over! The ship was at position", ship)
-    
-    
-    
     
 #periodic table quiz# Simple Periodic Table Quiz
 import random
@@ -87,7 +85,86 @@ elif score >= questions // 2:
 else:
     print("Don't worry, you'll get better with practice!")
     
-    
-    
-    
-    
+#maths quiz final answer and operation given and need to choose array of no.
+
+#lucky draw
+             
+             
+import random
+
+print("Welcome to the RPG Battle Arena!")
+player_hp = 30
+monster_hp = 25
+potions = 3
+
+monsters = [
+    "Goblin",
+    "Orc",
+    "Troll",
+    "Skeleton",
+    "Zombie",
+    "Vampire",
+    "Werewolf",
+    "Dragon",
+    "Slime",
+    "Giant Spider",
+    "Witch",
+    "Demon",
+    "Ghost",
+    "Minotaur",
+    "Hydra",
+    "Golem",
+    "Lich",
+    "Harpy",
+    "Basilisk",
+    "Kraken"
+]
+monsterpickup = random.choice(monsters)
+print(f"A wild {monsterpickup} appears! Prepare for battle!")
+while player_hp > 0 and monster_hp > 0:
+    print(f"\nYour HP: {player_hp} | Monster HP: {monster_hp} | Potions: {potions}")
+    print("Choose your action:")
+    print("1. Attack")
+    print("2. Heal")
+    print("3. Run")
+    choice = input("Enter 1, 2, or 3: ")
+
+    if choice == "1":
+        dmg = random.randint(4, 8)
+        monster_hp -= dmg
+        print(f"You attack the monster for {dmg} damage!")
+    elif choice == "2":
+        if potions > 0 and player_hp < 70:
+            print("You drink a potion to heal yourself.")
+            heal = random.randint(6, 12)
+            player_hp += heal
+            potions -= 1
+            print(f"You drink a potion and heal for {heal} HP!")
+        elif player_hp > 70:
+            print("You are already at full health!")
+            continue
+        else:
+            print("You have no potions left!")
+            continue
+    elif choice == "3":
+        print("You try to run away...")
+        if random.randint(0,5) < 6:  # 60% chance to escape
+            print("You escaped safely!")
+            break
+        else:
+            print("You failed to escape!")
+    else:
+        print("Invalid choice. Try again.")
+        continue
+
+    if monster_hp > 0:
+        monster_dmg = random.randint(3, 7)
+        player_hp -= monster_dmg
+        print(f"The monster attacks you for {monster_dmg} damage!")
+
+if player_hp <= 0:
+    print("\nYou have been defeated by the monster.")
+elif monster_hp <= 0:
+    print("\nCongratulations! You defeated the monster!")
+elif choice == "3" and player_hp > 0:
+    print("\nYou survived by running away!")                                         
