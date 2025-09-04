@@ -31,6 +31,7 @@ def welcome_screen():
 
 def mainmenu():
     while True:
+        clear_screen()
         print_banner()
         print("MAIN MENU".center(80))
         print("1. Login".center(80))
@@ -133,35 +134,53 @@ def adminmenu():
         print("="*80)
         choice = input("Enter your choice (1-5): ").strip()
         if choice == '1':
+            clear_screen()
+            print_banner()
             cur.execute("SELECT * FROM user")
             users = cur.fetchall()
             print("\nAll Users:")
-            print("-"*80)
+            print("╔════╦════════════════╦════════════════════════════╦══════════════╦════════════╦══════════╗")
+            print("║ ID ║ Name           ║ Email                      ║ Mobile       ║ Password   ║ Role     ║")
+            print("╠════╬════════════════╬════════════════════════════╬══════════════╬════════════╬══════════╣")
             for user in users:
-                print(f"ID: {user[0]}, Name: {user[1]}, Email: {user[3]}, Mobile: {user[4]}, Role: {user[5]}")
-            print("-"*80)
+                print(f"║ {str(user[0]).ljust(2)} ║ {user[1].ljust(14)} ║ {user[3].ljust(26)} ║ {str(user[4]).ljust(12)} ║ {user[2].ljust(10)} ║ {user[5].ljust(8)} ║")
+            print("╚════╩════════════════╩════════════════════════════╩══════════════╩════════════╩══════════╝")
             input("Press Enter to continue...")
         elif choice == '2':
+            clear_screen()
+            print_banner()
             cur.execute("SELECT * FROM score")
             scores = cur.fetchall()
             print("\nAll Scores:")
-            print("-"*80)
-            for score in scores:
-                print(f"User ID: {score[0]}, Game: {score[1]}, Score: {score[2]}, Time: {score[3]}")
-            print("-"*80)
+            if not scores:
+                print("No scores found.")
+            else:
+                print("╔════════╦════════════════════╦════════════╦════════════════════════╗")
+                print("║ UserID ║ Game               ║ Score      ║ Time                  ║")
+                print("╠════════╬════════════════════╬════════════╬════════════════════════╣")
+                for score in scores:
+                    print(f"║ {str(score[0]).ljust(6)} ║ {score[1].ljust(18)} ║ {str(score[2]).ljust(10)} ║ {str(score[3]).ljust(22)} ║")
+                print("╚════════╩════════════════════╩════════════╩════════════════════════╝")
             input("Press Enter to continue...")
         elif choice == '3':
+            clear_screen()
+            print_banner()
             print("\nAvailable Games:")
             print("- Battleship\n- Guess the Number\n- Rock Paper Scissors\n- RPG Battle Arena\n- BlackJack")
             input("Press Enter to continue...")
         elif choice == '4':
+            clear_screen()
+            print_banner()
             user_id = input("Enter the USER_ID of the user to suspend: ").strip()
             confirm = input(f"Are you sure you want to suspend user {user_id}? (Y/N): ").strip().lower()
             if confirm == 'y':
-                cur.execute("DELETE FROM user WHERE USER_ID = %s", (user_id,))
-                cur.execute("DELETE FROM score WHERE USER_ID = %s", (user_id,))
-                con.commit()
-                print(f"User with ID {user_id} has been suspended.")
+                if user_id.isdigit():
+                    cur.execute("DELETE FROM user WHERE USER_ID = %s", (int(user_id),))
+                    cur.execute("DELETE FROM score WHERE USER_ID = %s", (int(user_id),))
+                    con.commit()
+                    print(f"User with ID {user_id} has been suspended.")
+                else:
+                    print("Invalid USER_ID.")
             else:
                 print("Suspension cancelled.")
             input("Press Enter to continue...")
@@ -208,13 +227,20 @@ def playermenu(user_id):
                 print("Invalid choice, please try again.")
                 input("Press Enter to continue...")
         elif choice == '2':
+            clear_screen()
+            print_banner()
             cur.execute("SELECT * FROM score WHERE USER_ID = %s", (user_id,))
             scores = cur.fetchall()
             print("\nYour Scores:")
-            print("-"*80)
-            for score in scores:
-                print(f"Game: {score[1]}, Score: {score[2]}, Time: {score[3]}")
-            print("-"*80)
+            if not scores:
+                print("No scores found.")
+            else:
+                print("╔════════════════════╦════════════╦════════════════════════╗")
+                print("║ Game               ║ Score      ║ Time                  ║")
+                print("╠════════════════════╬════════════╬════════════════════════╣")
+                for score in scores:
+                    print(f"║ {score[1].ljust(18)} ║ {str(score[2]).ljust(10)} ║ {str(score[3]).ljust(22)} ║")
+                print("╚════════════════════╩════════════╩════════════════════════╝")
             input("Press Enter to continue...")
         elif choice == '3':
             print("Logging out...")
