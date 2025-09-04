@@ -2,19 +2,14 @@ import mysql.connector as m
 import os
 import sys
 import functions as fxn
-con=m.connect(
-    host="localhost",
-    user="root",
-    password="swordsaint",
-    database="arcade"
-)
-cur = con.cursor()
-cur.execute("use arcade")
+import db
 
+con = db.con
+cur = db.cur
 
 cur.execute("""
     CREATE TABLE IF NOT EXISTS user (
-        USER_ID int AUTO_INCREMENT PRIMARY KEY ,
+        USER_ID int AUTO_INCREMENT PRIMARY KEY,
         USER_NAME VARCHAR(20) NOT NULL,
         USER_PASSWORD VARCHAR(20) NOT NULL,
         USER_EMAIL VARCHAR(50) NOT NULL,
@@ -32,6 +27,7 @@ cur.execute("""
     )
 """)
 con.commit()
+
 fxn.welcome_screen()
 fxn.mainmenu()
 
